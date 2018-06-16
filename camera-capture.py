@@ -2,7 +2,7 @@ import cv2
 
 cap = cv2.VideoCapture(0)
 
-while(True):
+while True:
     # Capture frame-by-frame
     ret, frame = cap.read()
 
@@ -12,9 +12,10 @@ while(True):
         continue
 
     # Display the resulting frame
-    cv2.imshow('frame',gray)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    #cv2.imshow('frame',gray)
+    if cv2.waitKey(1) & 0xFF == ord('s'):
+       cv2.imwrite("~/Documents/TechFest/test.jpg",image) 
+       break
 
 # When everything done, release the capture
 cap.release()
