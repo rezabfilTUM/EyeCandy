@@ -18,6 +18,7 @@ def color(R, G, B):
 def adjust_brigtness(brightness):
     normalizedBr = 100*brightness/255
     
+    
 def calculate_brightness(im_file):
    im = Image.open(im_file)
    stat = ImageStat.Stat(im)
