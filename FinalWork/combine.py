@@ -1,20 +1,28 @@
-import time
+from PIL import Image, ImageStat
+import time,math
 import cv2
 import requests
 import json
 import serial
 from random import randint
 from IPython.display import HTML
+import sys
 
-
-#ser = serial.Serial ('/dev/ttyUSB0',9600, timeout=.5)
+ser = serial.Serial ('/dev/ttyUSB0',9600, timeout=.5)
 def color(R, G, B):
     finalString = '(T'+ str(R) +',' + str(G) + ',' + str(B) + ',)'
     print finalString
-    #ser.write(finalString)
-    #while ser.read =! "done":
-          
-     
+    ser.write(finalString)
+    #while ser.read != "done":
+
+def adjust_brigtness(brightness):
+    normalizedBr = 100*brightness/255
+    
+def calculate_brightness(im_file):
+   im = Image.open(im_file)
+   stat = ImageStat.Stat(im)
+   r,g,b = stat.mean
+   return math.sqrt(0.241*(r**2) + 0.691*(g**2) + 0.068*(b**2))  
 while True:
 	camera_port = 0
 	camera = cv2.VideoCapture(camera_port)
@@ -41,8 +49,8 @@ while True:
 
 	image_path = "/home/ess/Documents/TechFest/EyeCandy/FinalWork/opencv.jpg"
 	image_data = open(image_path, "rb").read()
-
-	headers = {'Content-Type': 'application/octet-stream','Ocp-Apim-Subscription-Key': subscription_key}
+        brightness = calculate_brightness(image_path)
+ 	headers = {'Content-Type': 'application/octet-stream','Ocp-Apim-Subscription-Key': subscription_key}
 
 	params = {
 	    'returnFaceId': 'true',
@@ -59,7 +67,7 @@ while True:
 	happyValue = datastore[0]["faceAttributes"]["emotion"]["happiness"]
         sadValue = datastore[0]["faceAttributes"]["emotion"]["sadness"]
 
-        print happyValue
+        print happyValue, sadValue
         if (happyValue > 0.5):
            #isHappy = True
            randNum = randint(0, 2)
@@ -81,5 +89,6 @@ while True:
         else:
            color(randint(0, 255), randint(0, 255), randint(0, 255))
         #add DONE @ serial
+        adjust_brightness(brightness) 
         time.sleep(20)
 
