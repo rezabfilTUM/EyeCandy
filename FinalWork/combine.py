@@ -90,6 +90,6 @@ while True:
         else:
            color(randint(0, 255), randint(0, 255), randint(0, 255))
         #add DONE @ serial
-        adjust_brightness(brightness) 
-        time.sleep(20)
+        #adjust_brightness(brightness) 
+        time.sleep(10)
 
